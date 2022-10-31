@@ -1,2 +1,2 @@
-# nlw-esports
+# NLW eSports
  
