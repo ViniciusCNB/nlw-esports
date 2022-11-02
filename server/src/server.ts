@@ -6,12 +6,12 @@ import { convertMinutesToHourString } from "./utils/convert-minutes-to-hour-stri
 
 const app = express()
 
-app.use(express.json())
-app.use(cors())
-
 const prisma = new PrismaClient({
   log: ["query"],
 })
+
+app.use(express.json())
+app.use(cors())
 
 app.get("/games", async (request, response) => {
   const games = await prisma.game.findMany({
@@ -38,8 +38,8 @@ app.post("/games/:id/ads", async (request, response) => {
       yearsPlaying: body.yearsPlaying,
       discord: body.discord,
       weekDays: body.weekDays.join(","),
-      hourStart: convertHourStringToMinutes(body.hourStart),
-      hourEnd: convertHourStringToMinutes(body.hourEnd),
+      hourStart: body.hourStart,
+      hourEnd: body.hourEnd,
       useVoiceChannel: body.useVoiceChannel,
     },
   })
@@ -73,8 +73,8 @@ app.get("/games/:id/ads", async (request, response) => {
       return {
         ...ad,
         weekDays: ad.weekDays.split(","),
-        hourStart: convertMinutesToHourString(ad.hourStart),
-        hourEnd: convertMinutesToHourString(ad.hourEnd),
+        hourStart: ad.hourStart,
+        hourEnd: ad.hourEnd,
       }
     })
   )
