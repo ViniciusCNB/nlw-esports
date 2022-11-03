@@ -4,6 +4,7 @@ import * as Checkbox from "@radix-ui/react-checkbox"
 import * as ToggleGroup from "@radix-ui/react-toggle-group"
 import { Check, GameController } from "phosphor-react"
 import Input from "./Form/Input"
+import axios from "axios"
 
 interface Game {
   id: string
@@ -15,11 +16,9 @@ const CreateAdModal = () => {
   const [weekDays, setWeekDays] = useState<string[]>([])
 
   useEffect(() => {
-    fetch("http://localhost:3333/games")
-      .then((response) => response.json())
-      .then((data) => {
-        setGames(data)
-      })
+    axios("http://localhost:3333/games").then((response) => {
+      setGames(response.data)
+    })
   }, [])
 
   return (
